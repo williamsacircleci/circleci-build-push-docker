@@ -1,7 +1,18 @@
 version: 2.1
 
+## Aliases
+
+ignore-master: &ignore-master
+  filters:
+    branches:
+      ignore:
+        - master
+
+## ORBS
 orbs:
   aws-ecr: circleci/aws-ecr@6.7.0
+
+## WORKFLOWS
 
 workflows:
   build_and_push_image:
@@ -16,3 +27,4 @@ workflows:
           region: AWS_REGION
           repo: circleci-ecr-orb-demo
           tag: "$CIRCLE_SHA1"
+          <<: *ignore-master
