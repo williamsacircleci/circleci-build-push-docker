@@ -83,10 +83,13 @@ jobs:
     machine: true
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
       - run:
           environment:
             AWS_DEFAULT_REGION: eu-west-1
           command: |
+            sudo apt update -yy && sudo apt install -y jq python3-venv && pip install awscli --user
             docker build -t semver-heycar:$CIRCLE_SHA1  .
             echo ""
             docker tag semver-heycar:$CIRCLE_SHA1 637003263782.dkr.ecr.eu-west-1.amazonaws.com/semver-heycar:$CIRCLE_SHA1
