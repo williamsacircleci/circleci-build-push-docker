@@ -87,7 +87,9 @@ jobs:
           environment:
             AWS_DEFAULT_REGION: eu-west-1
           command: |
-            cat Dockerfile
+            docker build -t heycar-dev-ecr-ingest:$CIRCLE_SHA1  .
+            echo ""
+            docker images
 
 
 ### WORKFLOWS
