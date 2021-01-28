@@ -87,7 +87,7 @@ jobs:
           environment:
             AWS_DEFAULT_REGION: eu-west-1
           command: |
-            docker --version
+            cat Dockerfile
 
 
 ### WORKFLOWS
