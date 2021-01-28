@@ -87,7 +87,7 @@ jobs:
           environment:
             AWS_DEFAULT_REGION: eu-west-1
           command: |
-            sudo apt update -yy && sudo apt install -y jq python3-venv && pip install awscli --user
+            docker --version
 
 
 ### WORKFLOWS
