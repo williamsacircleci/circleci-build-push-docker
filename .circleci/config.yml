@@ -80,10 +80,12 @@ commands:
 
 jobs:
   deploy_development_docker:
-    machine: true
+    docker:
+      - image: account-id.dkr.ecr.us-east-1.amazonaws.com/org/repo:0.1
     steps:
       - checkout
       - setup_remote_docker:
+          version: 19.03.13
           docker_layer_caching: false
       - run:
           environment:
