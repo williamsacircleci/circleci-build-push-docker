@@ -80,12 +80,9 @@ commands:
 
 jobs:
   deploy_development_docker:
-    docker:
-      - image: amazon/aws-cli
+    machine: true
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
       - run:
           environment:
             AWS_DEFAULT_REGION: eu-west-1
