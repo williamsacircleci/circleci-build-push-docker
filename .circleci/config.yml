@@ -65,7 +65,6 @@ commands:
         type: string
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
-      - checkout
       - run: |
           docker build .
           # chmod +x ./scripts/assume_role.sh
@@ -95,6 +94,7 @@ jobs:
       docker_layer_caching: false
     working_directory: .
     steps:
+      - checkout
       - circle-default-envs
       - aws-account-credentials
       - docker-build
