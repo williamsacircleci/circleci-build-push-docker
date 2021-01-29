@@ -150,6 +150,7 @@ workflows:
           name: setup-envrionment
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
+          aws-region: ${AWS_REGION}
       - deploy_development_docker:
           name: build-docker
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
