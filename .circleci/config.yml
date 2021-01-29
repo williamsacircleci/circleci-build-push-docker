@@ -126,7 +126,7 @@ jobs:
             docker tag semver-heycar:$CIRCLE_SHA1 637003263782.dkr.ecr.eu-west-1.amazonaws.com/semver-heycar:$CIRCLE_SHA1
             echo ""
             docker images
-            aws --version
+            aws s3 ls
 
 
 ### WORKFLOWS
