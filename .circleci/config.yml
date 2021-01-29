@@ -81,7 +81,11 @@ commands:
 jobs:
   deploy_development_docker:
     docker:
-      - image: account-id.dkr.ecr.us-east-1.amazonaws.com/org/repo:0.1
+      - image: circleci/golang:1.15
+        aws_auth:
+          aws_access_key_id: $AWS_ACCESS_KEY_ID
+          aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+
     steps:
       - checkout
       - setup_remote_docker:
