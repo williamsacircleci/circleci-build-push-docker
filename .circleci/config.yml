@@ -65,6 +65,7 @@ commands:
         type: string
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
+      - checkout
       - run: |
           docker build .
           # chmod +x ./scripts/assume_role.sh
