@@ -104,3 +104,4 @@ workflows:
     jobs:
       - deploy_development_docker:
           <<: *ignore-master
+          <<: *executor-auth-aws
