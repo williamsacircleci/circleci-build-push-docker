@@ -113,6 +113,9 @@ jobs:
       aws_secret_key:
          description: aws secret key secret
          type: string
+      aws_region:
+         description: aws region
+         type: string
     machine:
       image: ubuntu-1604:202007-01
     steps:
