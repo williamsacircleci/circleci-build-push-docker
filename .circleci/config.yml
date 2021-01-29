@@ -119,17 +119,6 @@ jobs:
             echo ""
             docker images
 
-  deploy_project:
-    executor: aws-cli/default
-    steps:
-      - attach_workspace:
-          at: .
-      - aws-cli/setup:
-          profile-name: default
-      - run:
-          name: Upload file to S3
-          command: aws s3 ls
-
 
 ### WORKFLOWS
 
@@ -143,6 +132,4 @@ workflows:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
       - deploy_development_docker:
-          <<: *ignore-master
-      - deploy_project:
           <<: *ignore-master
