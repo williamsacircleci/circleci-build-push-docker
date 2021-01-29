@@ -103,5 +103,6 @@ workflows:
   docker_build:
     jobs:
       - deploy_development_docker:
+          aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+          aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
           <<: *ignore-master
-          <<: *executor-auth-aws
