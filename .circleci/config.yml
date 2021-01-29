@@ -66,7 +66,7 @@ commands:
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
       - run: |
-          docker build -t heycar-dev-semvar:$CIRCLE_SHA1 -f Dockerfile .
+          docker build -t heycar-dev-semvar:$CIRCLE_SHA1 -f docker/fargate/Dockerfile .
           # chmod +x ./scripts/assume_role.sh
           # source scripts/assume_role.sh arn:aws:iam::728156150350:role/DevXATerragrunt
           # $(aws ecr get-login --no-include-email --region eu-west-1)
