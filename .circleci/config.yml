@@ -42,8 +42,8 @@ commands:
       - run: |
           export AWS_ACCESS_KEY_ID=<< parameters.aws_access_key_id >>
           export AWS_SECRET_ACCESS_KEY=<< parameters.aws_secret_key >>
-          echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID_TEMP}" >> $BASH_ENV
-          echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_TEMP}" >> $BASH_ENV
+          echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> $BASH_ENV
+          echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $BASH_ENV
           source $BASH_ENV
 
   docker-build:
