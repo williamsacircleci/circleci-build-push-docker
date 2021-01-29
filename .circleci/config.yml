@@ -52,6 +52,21 @@ commands:
           echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_TEMP}" >> $BASH_ENV
           echo "export AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN_TEMP}" >> $BASH_ENV
           source $BASH_ENV
+
+  docker-build:
+    description: "Default Circle Environment variables"
+    parameters:
+      aws_access_key_id:
+        description: AWS Access Key ID
+        type: string
+        default: "${AWS_ACCESS_KEY_ID}"
+      aws_secret_key:
+        description: AWS Secret Key
+        type: string
+        default: "${AWS_SECRET_ACCESS_KEY}"
+    steps:
+      - run: |
+          docker --version
       
 ### JOBS
 
@@ -72,6 +87,9 @@ jobs:
       docker_layer_caching: false
     working_directory: ~/my-app
     steps:
+      - circle-default-envs
+      - aws-account-credentials
+      - docker-build
       - run:
           name: export env vars
           command: |    
@@ -81,6 +99,8 @@ jobs:
             echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> $BASH_ENV
             echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $BASH_ENV
             echo "export AWS_REGION=${AWS_REGION}" >> $BASH_ENV
+
+
 
 ### WORKFLOWS
 
