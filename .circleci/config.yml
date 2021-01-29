@@ -87,7 +87,8 @@ jobs:
       aws_secret_key:
          description: aws secret key secret
          type: string
-    executor: machine
+    machine:
+      image: ubuntu-1604:202007-01
     working_directory: ~/code
     environment:
       BASH: true
@@ -96,7 +97,6 @@ jobs:
           path: ~/code
       - attach_workspace:
           at: .
-      - setup_remote_docker
       - circle-default-envs
       - run:
          name: export env vars
