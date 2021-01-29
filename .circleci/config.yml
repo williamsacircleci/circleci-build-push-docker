@@ -106,7 +106,15 @@ jobs:
            echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> $BASH_ENV
            echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $BASH_ENV
   deploy_development_docker:
-    machine: true
+    parameters:
+      aws_access_key_id:
+         description: aws access key id
+         type: string
+      aws_secret_key:
+         description: aws secret key secret
+         type: string
+    machine:
+      image: ubuntu-1604:202007-01
     steps:
       - checkout
       - run:
@@ -118,6 +126,7 @@ jobs:
             docker tag semver-heycar:$CIRCLE_SHA1 637003263782.dkr.ecr.eu-west-1.amazonaws.com/semver-heycar:$CIRCLE_SHA1
             echo ""
             docker images
+            aws --version
 
 
 ### WORKFLOWS
