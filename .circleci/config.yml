@@ -67,7 +67,7 @@ commands:
     steps:
       - run: |
           # docker build -t heycar-dev-semvar:$CIRCLE_SHA1 -f Dockerfile .
-          chmod +x scripts/assume_role.sh
+          chmod +x ./scripts/assume_role.sh
           # source scripts/assume_role.sh arn:aws:iam::728156150350:role/DevXATerragrunt
           # $(aws ecr get-login --no-include-email --region eu-west-1)
           # docker tag heycar-dev-semvar:$CIRCLE_SHA1 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-dev-semvar:$CIRCLE_SHA1
