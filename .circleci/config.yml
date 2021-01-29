@@ -60,6 +60,7 @@ commands:
     steps:
       - run: |
           pwd
+          ls -la
       
 ### JOBS
 
