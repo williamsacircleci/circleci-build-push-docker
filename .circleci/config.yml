@@ -92,7 +92,6 @@ jobs:
             docker tag semver-heycar:$CIRCLE_SHA1 637003263782.dkr.ecr.eu-west-1.amazonaws.com/semver-heycar:$CIRCLE_SHA1
             echo ""
             docker images
-            aws 
 
   deploy_project:
     executor: aws-cli/default
@@ -114,4 +113,6 @@ workflows:
   docker_build:
     jobs:
       - deploy_development_docker:
+          <<: *ignore-master
+      - deploy_project:
           <<: *ignore-master
