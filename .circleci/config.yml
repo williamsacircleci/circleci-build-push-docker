@@ -57,6 +57,16 @@ commands:
 
 jobs:
   build:
+    parameters:
+      aws_access_key_id:
+         description: aws access key id
+         type: string
+      aws_secret_key:
+         description: aws secret key secret
+         type: string
+      aws_region:
+          description: aws secret key secret
+          type: string
     machine:
       image: ubuntu-2004:202010-01
       docker_layer_caching: true
