@@ -87,6 +87,7 @@ jobs:
       aws_secret_key:
          description: aws secret key secret
          type: string
+    executor: machine
     working_directory: ~/code
     environment:
       BASH: true
