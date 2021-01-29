@@ -59,7 +59,7 @@ commands:
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
       - run: |
-          pwd
+          cd $HOME
           ls -la
       
 ### JOBS
