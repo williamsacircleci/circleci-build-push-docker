@@ -120,8 +120,13 @@ jobs:
          type: string
     machine:
       image: ubuntu-1604:202007-01
+    working_directory: ~/code
+    environment:
+      BASH: true
     steps:
       - checkout
+      - circle-default-envs
+      - assume-aws-role
       - run:
           environment:
             AWS_DEFAULT_REGION: eu-west-1
