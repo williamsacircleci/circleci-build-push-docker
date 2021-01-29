@@ -59,8 +59,7 @@ commands:
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
       - run: |
-          cd $HOME
-          ls -la
+          aws s3 ls
       
 ### JOBS
 
