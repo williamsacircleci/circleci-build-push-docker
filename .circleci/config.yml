@@ -103,8 +103,10 @@ jobs:
          command: |
            export AWS_ACCESS_KEY_ID=<< parameters.aws_access_key_id >>
            export AWS_SECRET_ACCESS_KEY=<< parameters.aws_secret_key >>
+           export AWS_REGION=<< parameters.aws_region >>
            echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> $BASH_ENV
            echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $BASH_ENV
+           echo "export AWS_REGION=${AWS_REGION}" >> $BASH_ENV
   deploy_development_docker:
     parameters:
       aws_access_key_id:
