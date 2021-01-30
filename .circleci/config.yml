@@ -183,7 +183,7 @@ workflows:
           aws_assume_role_arn: arn:aws:iam::728156150350:role/DevXATerragrunt
           <<: *ignore-master
       - image-push:
-          name: push image
+          name: push-image
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
           aws_region: ${AWS_REGION}
