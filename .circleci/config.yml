@@ -1,5 +1,17 @@
 version: 2.1
 
+## Aliases
+ignore-master: &ignore-master
+  filters:
+    branches:
+      ignore:
+        - master
+
+only-master: &only-master
+  filters:
+    branches:
+      only: master
+
 ### EXECUTORS
 executors:
   heycar-citools-helm:
@@ -72,8 +84,22 @@ commands:
           source scripts/assume_role.sh arn:aws:iam::728156150350:role/DevXATerragrunt
           #$(aws ecr get-login --no-include-email --region eu-west-1)
           docker tag heycar-semver:$CIRCLE_SHA1 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-semver:$CIRCLE_SHA1
+          
+
+  push-image:
+    description: "Push docker image to registry"
+    parameters:
+      aws_access_key_id:
+        description: AWS Access Key ID
+        type: string
+        default: "${AWS_ACCESS_KEY_ID}"
+      aws_secret_key:
+        description: AWS Secret Key
+        type: string
+        default: "${AWS_SECRET_ACCESS_KEY}"
+    steps:
+      - run: |
           docker push 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-semver:$CIRCLE_SHA1
-          docker images
       
 ### JOBS
 
@@ -109,6 +135,37 @@ jobs:
             echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $BASH_ENV
             echo "export AWS_REGION=${AWS_REGION}" >> $BASH_ENV
 
+  image-push:
+    parameters:
+      aws_access_key_id:
+         description: aws access key id
+         type: string
+      aws_secret_key:
+         description: aws secret key secret
+         type: string
+      aws_region:
+          description: aws secret key secret
+          type: string
+      aws_assume_role_arn:
+        description: AWS Role ARN To Assumes
+        type: string
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - circle-default-envs
+      - aws-account-credentials
+      - push-image
+      - run:
+          name: export env vars
+          command: |    
+            export AWS_ACCESS_KEY_ID=<< parameters.aws_access_key_id >>
+            export AWS_SECRET_ACCESS_KEY=<< parameters.aws_secret_key >>
+            export AWS_REGION=<< parameters.aws_region >>
+            echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> $BASH_ENV
+            echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $BASH_ENV
+            echo "export AWS_REGION=${AWS_REGION}" >> $BASH_ENV
+
 
 
 ### WORKFLOWS
@@ -124,3 +181,11 @@ workflows:
           aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
           aws_region: ${AWS_REGION}
           aws_assume_role_arn: arn:aws:iam::728156150350:role/DevXATerragrunt
+          <<: *ignore-master
+      - image-push:
+          name: push image
+          aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+          aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
+          aws_region: ${AWS_REGION}
+          aws_assume_role_arn: arn:aws:iam::728156150350:role/DevXATerragrunt
+          <<: *only-master
