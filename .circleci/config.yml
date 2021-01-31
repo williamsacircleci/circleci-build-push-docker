@@ -78,15 +78,10 @@ commands:
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
       - run: |
-          aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 728156150350.dkr.ecr.eu-west-1.amazonaws.com
           docker build -t heycar-semver:$CIRCLE_SHA1 .
-          chmod +x ./scripts/assume_role.sh
-          source scripts/assume_role.sh arn:aws:iam::728156150350:role/DevXATerragrunt
-          #$(aws ecr get-login --no-include-email --region eu-west-1)
-          docker tag heycar-semver:$CIRCLE_SHA1 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-semver:$CIRCLE_SHA1
           
 
-  push-image:
+  docker-push:
     description: "Push docker image to registry"
     parameters:
       aws_access_key_id:
@@ -99,7 +94,13 @@ commands:
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
       - run: |
-          docker push 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-semver:$CIRCLE_SHA1
+          aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 728156150350.dkr.ecr.eu-west-1.amazonaws.com
+          docker build -t heycar-semver:$CIRCLE_SHA1 .
+          chmod +x ./scripts/assume_role.sh
+          source scripts/assume_role.sh arn:aws:iam::728156150350:role/DevXATerragrunt
+          #$(aws ecr get-login --no-include-email --region eu-west-1)
+          docker tag heycar-semver:$CIRCLE_SHA1 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-semver:$CIRCLE_SHA1
+
       
 ### JOBS
 
@@ -135,7 +136,7 @@ jobs:
             echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $BASH_ENV
             echo "export AWS_REGION=${AWS_REGION}" >> $BASH_ENV
 
-  image-push:
+  build-push:
     parameters:
       aws_access_key_id:
          description: aws access key id
@@ -155,7 +156,7 @@ jobs:
       - checkout
       - circle-default-envs
       - aws-account-credentials
-      - push-image
+      - docker-push
       - run:
           name: export env vars
           command: |    
@@ -176,14 +177,14 @@ workflows:
   build:
     jobs:
       - build:
-          name: set-environment
+          name: build-docker
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
           aws_region: ${AWS_REGION}
           aws_assume_role_arn: arn:aws:iam::728156150350:role/DevXATerragrunt
           <<: *ignore-master
-      - image-push:
-          name: push-image
+      - build-push:
+          name: build-push-docker
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_key: ${AWS_SECRET_ACCESS_KEY}
           aws_region: ${AWS_REGION}
