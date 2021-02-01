@@ -94,10 +94,10 @@ commands:
         default: "${AWS_SECRET_ACCESS_KEY}"
     steps:
       - run: |
-          #aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 728156150350.dkr.ecr.eu-west-1.amazonaws.com
+          aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 728156150350.dkr.ecr.eu-west-1.amazonaws.com
           chmod +x ./scripts/assume_role.sh
           source scripts/assume_role.sh arn:aws:iam::728156150350:role/DevXATerragrunt
-          $(aws ecr get-login --no-include-email --region eu-west-1)
+          #$(aws ecr get-login --no-include-email --region eu-west-1)
           docker build --tag heycar-semver:$CIRCLE_SHA1 .
           docker tag heycar-semver:$CIRCLE_SHA1 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-semver:$CIRCLE_SHA1
           docker push 728156150350.dkr.ecr.eu-west-1.amazonaws.com/heycar-semver:$CIRCLE_SHA1
